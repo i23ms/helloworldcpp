@@ -93,4 +93,5 @@ string get_winner(char first, char second) {
         default:
             return "Nothing";
     }
+    return "Nothing";
 }
