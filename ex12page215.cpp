@@ -10,6 +10,7 @@ void start_game(int mode);
 void print(string str);
 string compare_two_vectors(vector<int> first_vector, vector<int> second_vector, int difficult_flg);
 void print_try_again();
+vector<int> get_new_values_vector(int size);
 
 int main() {
     // start_game(int mode) принимает параметр сложности игры 1 или 2: 
@@ -24,9 +25,20 @@ int main() {
 void start_game(int mode) {
     if (mode != 1 && mode != 2) throw runtime_error("Введите корректный режим игры: 1 или 2\n");
     int input;
+    char gen_new_values_answer;
     const string exit_condition = "bull bull bull bull ";
     vector<int> input_vector;
-    vector<int> secret_vector = { 5, 6, 7, 8 };
+    vector<int> secret_vector = get_new_values_vector(4);
+
+    cout << "Каждый раз генерировать новые значения? (y/n): ";
+    while (cin >> gen_new_values_answer) {
+        if (gen_new_values_answer != 'y' && gen_new_values_answer != 'n') {
+            cout << "\nКаждый раз генерировать новые значения? (y/n): ";
+            continue;
+        }
+        break;
+    }
+    
 
     cout << "\nДавайте сыграем в игру \"Быки и коровы\".\nВам необходимо отгадать четырёхзначное число, в котором каждая цифра уникальна.\nВаш вариант? \n";
     while (cin >> input) {
@@ -37,7 +49,8 @@ void start_game(int mode) {
         } else {
             // print ("Debug: Значение корректно");
         }
-
+        secret_vector = get_new_values_vector(4);
+        
         if(compare_two_vectors(input_vector, secret_vector, mode) == exit_condition) {
             print("Игра закончена! Вы выиграли!");
             break;
@@ -160,4 +173,12 @@ bool is_cow(int element, int position, vector<int> secret_vector) {
 
 void print_try_again() {
     cout << "Попробуйте ещё!\n\nВаш вариант?\n";
+}
+
+vector<int> get_new_values_vector(int size) {
+    vector<int> result;
+    for (int i = 0; i < size; ++i) {
+        result.push_back(randint(10));
+    }
+    return result;
 }
